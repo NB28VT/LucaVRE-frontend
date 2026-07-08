@@ -1,8 +1,13 @@
 import { useState } from 'react';
-import { MOCK_CARS, MOCK_TRACKS, MOCK_REPORTED_SYMPTOMS } from '@/data/mockVehicleData.ts';
+import {
+  MOCK_CARS,
+  MOCK_TRACKS,
+  MOCK_REPORTED_SYMPTOMS,
+  MOCK_SUGGESTED_SETUP_CHANGES,
+} from '@/data/mockVehicleData.ts';
 import './App.css';
 
-type CurrentView = 'start' | 'load' | 'new';
+type CurrentView = 'start' | 'load' | 'new' | 'results';
 
 interface SavedSession {
   id: string;
@@ -44,8 +49,6 @@ function App() {
   const [selectedTrackId, setSelectedTrackId] = useState<string>('');
   const [selectedSymptomId, setSelectedSymptomId] = useState<string>('');
 
-  const selectedCar = MOCK_CARS.find((car) => car.id === selectedCarId);
-
   function handleStartNewSession(): void {
     setCurrentView('new');
   }
@@ -61,6 +64,14 @@ function App() {
   function handleResumeSession(session: SavedSession): void {
     setCurrentView('new');
     void session;
+  }
+
+  function handleSubmitDiagnosis(): void {
+    setCurrentView('results');
+  }
+
+  function handleReturnToSession(): void {
+    setCurrentView('new');
   }
 
   function renderStartPage() {
@@ -168,14 +179,6 @@ function App() {
                 </option>
               ))}
             </select>
-
-            {selectedCar && (
-              <ul className="characteristics-list">
-                {selectedCar.defaultCharacteristics.map((characteristic) => (
-                  <li key={characteristic}>{characteristic}</li>
-                ))}
-              </ul>
-            )}
           </div>
 
           <div className="detail-card">
@@ -215,13 +218,37 @@ function App() {
               ))}
             </select>
           </div>
+        </div>
 
-          <div className="detail-card detail-card-wide">
-            <p className="detail-card-label">Recommended Setup Changes</p>
-            <p className="detail-card-value">
-              Diagnosis will appear here once symptoms are submitted.
-            </p>
-          </div>
+        <button type="button" className="submit-button" onClick={handleSubmitDiagnosis}>
+          Submit
+        </button>
+      </section>
+    );
+  }
+
+  function renderResultsPage() {
+    return (
+      <section className="view view-results" aria-label="Suggested Setup Changes">
+        <button type="button" className="back-button" onClick={handleReturnToSession}>
+          <span aria-hidden="true">&#8592;</span> Back
+        </button>
+
+        <header className="view-header">
+          <h2 className="view-title">Suggested Setup Changes</h2>
+          <p className="view-subtitle">
+            Based on the reported symptom, try these adjustments first.
+          </p>
+        </header>
+
+        <div className="suggestions-card">
+          <ul className="suggestions-list">
+            {MOCK_SUGGESTED_SETUP_CHANGES.map((change) => (
+              <li key={change} className="suggestion-item">
+                <span className="suggestion-item-text">{change}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     );
@@ -235,6 +262,8 @@ function App() {
         return renderLoadPage();
       case 'new':
         return renderNewPage();
+      case 'results':
+        return renderResultsPage();
       default:
         return renderStartPage();
     }

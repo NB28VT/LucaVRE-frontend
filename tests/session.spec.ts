@@ -51,32 +51,23 @@ test.describe('New Session car/track/symptom selection', () => {
     await expect(symptomSelect.locator('option')).toHaveCount(4);
   });
 
-  test('saves the selected car in local state and reveals its default characteristics', async ({
-    page,
-  }) => {
+  test('saves the selected car in local state', async ({ page }) => {
     const carSelect = page.getByLabel('Car');
 
     await carSelect.selectOption({ label: 'Porsche 911 GT3 R' });
 
     await expect(carSelect).toHaveValue('porsche-911-gt3');
-    await expect(page.getByText('High rear traction')).toBeVisible();
-    await expect(page.getByText('Light front end on turn-in')).toBeVisible();
-    await expect(page.getByText('Sensitive to lift-off oversteer')).toBeVisible();
   });
 
-  test('updates the characteristics list when the car selection changes', async ({ page }) => {
+  test('updates the selected car when the selection changes', async ({ page }) => {
     const carSelect = page.getByLabel('Car');
 
     await carSelect.selectOption({ label: 'Porsche 911 GT3 R' });
-    await expect(page.getByText('High rear traction')).toBeVisible();
+    await expect(carSelect).toHaveValue('porsche-911-gt3');
 
     await carSelect.selectOption({ label: 'Ferrari 296 GT3' });
 
     await expect(carSelect).toHaveValue('ferrari-296-gt3');
-    await expect(page.getByText('High rear traction')).not.toBeVisible();
-    await expect(page.getByText('Balanced weight distribution')).toBeVisible();
-    await expect(page.getByText('Agile mid-corner rotaton')).toBeVisible();
-    await expect(page.getByText('Stable braking')).toBeVisible();
   });
 
   test('saves the selected track in local state', async ({ page }) => {

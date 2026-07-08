@@ -331,19 +331,62 @@ button {
   outline: none;
 }
 
-.characteristics-list {
-  margin: var(--spacing-sm) 0 0;
-  padding-left: 1.1rem;
+.submit-button {
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: 0.85rem var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.submit-button:hover {
+  background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.suggestions-card {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.suggestions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
+  gap: var(--spacing-sm);
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
   line-height: 1.4;
 }
 
-.characteristics-list li::marker {
-  color: var(--color-accent);
+.suggestion-item::before {
+  content: '';
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+.suggestion-item-text {
+  flex: 1;
 }
 
 @media (min-width: 640px) {

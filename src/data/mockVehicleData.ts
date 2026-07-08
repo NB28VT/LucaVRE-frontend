@@ -1,9 +1,8 @@
-export interface CarSpec {
+  export interface CarSpec {
     id: string;
     name: string;
     class: 'Hypercar' | 'GT3' | 'LMP2';
     enginePlacement: 'Front' | 'Mid' | 'Rear';
-    defaultCharacteristics: string[];
   }
   
   export interface TrackSpec {
@@ -24,15 +23,13 @@ export interface CarSpec {
       id: 'porsche-911-gt3',
       name: 'Porsche 911 GT3 R',
       class: 'GT3',
-      enginePlacement: 'Rear',
-      defaultCharacteristics: ['High rear traction', 'Light front end on turn-in', 'Sensitive to lift-off oversteer']
+      enginePlacement: 'Rear'
     },
     {
       id: 'ferrari-296-gt3',
       name: 'Ferrari 296 GT3',
       class: 'GT3',
-      enginePlacement: 'Mid',
-      defaultCharacteristics: ['Balanced weight distribution', 'Agile mid-corner rotaton', 'Stable braking']
+      enginePlacement: 'Mid'
     }
   ];
   
@@ -57,5 +54,11 @@ export interface CarSpec {
     { id: 'oversteer', label: 'Oversteer' },
     { id: 'understeer', label: 'Understeer' },
     { id: 'balanced', label: 'Balanced' }
+  ];
+
+  export const MOCK_SUGGESTED_SETUP_CHANGES: string[] = [
+    'Stiffen the front anti-roll bar by one click to sharpen turn-in response',
+    'Lower rear tire pressures by 1.5 psi to increase mid-corner contact patch',
+    'Increase brake bias rearward by 2% to reduce entry understeer'
   ];
   
