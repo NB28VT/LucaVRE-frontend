@@ -13,6 +13,11 @@ export interface CarSpec {
     bumpiness: 'High' | 'Medium' | 'Low';
     characteristic: string;
   }
+
+  export interface ReportedSymptomOption {
+    id: string;
+    label: 'Oversteer' | 'Understeer' | 'Balanced';
+  }
   
   export const MOCK_CARS: CarSpec[] = [
     {
@@ -46,5 +51,11 @@ export interface CarSpec {
       bumpiness: 'Low',
       characteristic: 'High-speed compression turns (Eau Rouge), flowing sectors'
     }
+  ];
+
+  export const MOCK_REPORTED_SYMPTOMS: ReportedSymptomOption[] = [
+    { id: 'oversteer', label: 'Oversteer' },
+    { id: 'understeer', label: 'Understeer' },
+    { id: 'balanced', label: 'Balanced' }
   ];
   

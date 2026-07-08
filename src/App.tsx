@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MOCK_CARS, MOCK_TRACKS } from '@/data/mockVehicleData.ts';
+import { MOCK_CARS, MOCK_TRACKS, MOCK_REPORTED_SYMPTOMS } from '@/data/mockVehicleData.ts';
 import './App.css';
 
 type CurrentView = 'start' | 'load' | 'new';
@@ -42,6 +42,7 @@ function App() {
   const [currentView, setCurrentView] = useState<CurrentView>('start');
   const [selectedCarId, setSelectedCarId] = useState<string>('');
   const [selectedTrackId, setSelectedTrackId] = useState<string>('');
+  const [selectedSymptomId, setSelectedSymptomId] = useState<string>('');
 
   const selectedCar = MOCK_CARS.find((car) => car.id === selectedCarId);
 
@@ -197,10 +198,22 @@ function App() {
           </div>
 
           <div className="detail-card detail-card-wide">
-            <p className="detail-card-label">Reported Symptom</p>
-            <p className="detail-card-value">
-              e.g. &ldquo;Understeer on corner entry at Turn 5&rdquo;
-            </p>
+            <label className="detail-card-label" htmlFor="symptom-select">
+              Reported Symptom
+            </label>
+            <select
+              id="symptom-select"
+              className="detail-select"
+              value={selectedSymptomId}
+              onChange={(event) => setSelectedSymptomId(event.target.value)}
+            >
+              <option value="">Select a symptom&hellip;</option>
+              {MOCK_REPORTED_SYMPTOMS.map((symptom) => (
+                <option key={symptom.id} value={symptom.id}>
+                  {symptom.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="detail-card detail-card-wide">
