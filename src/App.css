@@ -296,6 +296,56 @@ button {
   line-height: 1.4;
 }
 
+.detail-card-label {
+  display: block;
+}
+
+.detail-select {
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: 0.6rem 2.25rem 0.6rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-raised);
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-text-secondary) 50%),
+    linear-gradient(135deg, var(--color-text-secondary) 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.15rem) center,
+    calc(100% - 0.85rem) center;
+  background-size:
+    0.3rem 0.3rem,
+    0.3rem 0.3rem;
+  background-repeat: no-repeat;
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.detail-select:hover,
+.detail-select:focus-visible {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.characteristics-list {
+  margin: var(--spacing-sm) 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.characteristics-list li::marker {
+  color: var(--color-accent);
+}
+
 @media (min-width: 640px) {
   .app-shell {
     padding: var(--spacing-xl) var(--spacing-lg);

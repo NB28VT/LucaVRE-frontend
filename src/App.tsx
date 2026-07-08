@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MOCK_CARS, MOCK_TRACKS } from '@/data/mockVehicleData.ts';
 import './App.css';
 
 type CurrentView = 'start' | 'load' | 'new';
@@ -39,6 +40,10 @@ const MOCK_SAVED_SESSIONS: SavedSession[] = [
 
 function App() {
   const [currentView, setCurrentView] = useState<CurrentView>('start');
+  const [selectedCarId, setSelectedCarId] = useState<string>('');
+  const [selectedTrackId, setSelectedTrackId] = useState<string>('');
+
+  const selectedCar = MOCK_CARS.find((car) => car.id === selectedCarId);
 
   function handleStartNewSession(): void {
     setCurrentView('new');
@@ -146,13 +151,49 @@ function App() {
 
         <div className="session-detail-grid">
           <div className="detail-card">
-            <p className="detail-card-label">Car</p>
-            <p className="detail-card-value">Select a GT3 car to begin</p>
+            <label className="detail-card-label" htmlFor="car-select">
+              Car
+            </label>
+            <select
+              id="car-select"
+              className="detail-select"
+              value={selectedCarId}
+              onChange={(event) => setSelectedCarId(event.target.value)}
+            >
+              <option value="">Select a GT3 car&hellip;</option>
+              {MOCK_CARS.map((car) => (
+                <option key={car.id} value={car.id}>
+                  {car.name}
+                </option>
+              ))}
+            </select>
+
+            {selectedCar && (
+              <ul className="characteristics-list">
+                {selectedCar.defaultCharacteristics.map((characteristic) => (
+                  <li key={characteristic}>{characteristic}</li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div className="detail-card">
-            <p className="detail-card-label">Track</p>
-            <p className="detail-card-value">Select a track to begin</p>
+            <label className="detail-card-label" htmlFor="track-select">
+              Track
+            </label>
+            <select
+              id="track-select"
+              className="detail-select"
+              value={selectedTrackId}
+              onChange={(event) => setSelectedTrackId(event.target.value)}
+            >
+              <option value="">Select a track&hellip;</option>
+              {MOCK_TRACKS.map((track) => (
+                <option key={track.id} value={track.id}>
+                  {track.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="detail-card detail-card-wide">
