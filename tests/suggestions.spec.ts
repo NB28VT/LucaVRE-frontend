@@ -20,7 +20,6 @@ test.describe('Setup diagnosis submission', () => {
 
     await expect(page.getByRole('region', { name: 'Suggested Setup Changes' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'Car Balance' })).not.toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Suggested Setup Changes' })).toBeVisible();
   });
 
   test('lists each suggested setup change as a bullet point', async ({ page }) => {

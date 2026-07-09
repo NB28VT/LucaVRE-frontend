@@ -166,7 +166,6 @@ function App() {
 
         <header className="view-header">
           <h2 className="view-title">New Session</h2>
-          <p className="view-subtitle">Active tuning session in progress.</p>
         </header>
 
         <div className="session-detail-grid">
@@ -255,7 +254,6 @@ function App() {
 
         <header className="view-header">
           <h2 className="view-title">Car Balance</h2>
-          <p className="view-subtitle">Tell us how the car is behaving on track.</p>
         </header>
 
         <div className="session-detail-grid">
@@ -287,10 +285,6 @@ function App() {
   }
 
   function renderResultsPage() {
-    const selectedSymptom = MOCK_REPORTED_SYMPTOMS.find(
-      (symptom) => symptom.id === selectedSymptomId,
-    );
-
     return (
       <section className="view view-results" aria-label="Suggested Setup Changes">
         <button type="button" className="back-button" onClick={handleReturnToSession}>
@@ -298,15 +292,6 @@ function App() {
         </button>
 
         {renderSessionHeader()}
-
-        <header className="view-header">
-          <h2 className="view-title">Suggested Setup Changes</h2>
-          <p className="view-subtitle">
-            {selectedSymptom
-              ? `Diagnosing ${selectedSymptom.label.toLowerCase()} \u2014 try these adjustments first.`
-              : 'Based on the reported symptom, try these adjustments first.'}
-          </p>
-        </header>
 
         <div className="suggestions-card">
           <div className="suggestions-card-header">
