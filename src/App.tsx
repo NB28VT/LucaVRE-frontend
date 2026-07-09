@@ -82,6 +82,13 @@ function App() {
     setCurrentView('balance');
   }
 
+  function handleWorkOnAnotherSession(): void {
+    setSelectedCarId('');
+    setSelectedTrackId('');
+    setSelectedSymptomId('');
+    setCurrentView('start');
+  }
+
   function renderStartPage() {
     return (
       <section className="view view-start" aria-label="Start Session">
@@ -311,6 +318,10 @@ function App() {
             ))}
           </ul>
         </div>
+
+        <button type="button" className="submit-button" onClick={handleWorkOnAnotherSession}>
+          Work on Another Session
+        </button>
       </section>
     );
   }

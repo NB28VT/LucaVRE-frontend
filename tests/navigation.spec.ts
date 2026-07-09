@@ -154,4 +154,18 @@ test.describe('Page navigation', () => {
     await expect(sessionHeader).toContainText('Ferrari 296 GT3');
     await expect(sessionHeader).toContainText('Circuit de la Sarthe (Le Mans)');
   });
+
+  test('navigates from Suggested Setup Changes all the way back to Start Session via Work on Another Session', async ({
+    page,
+  }) => {
+    await page.getByRole('button', { name: 'New Session' }).click();
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByRole('button', { name: 'Submit' }).click();
+    await expect(page.getByRole('region', { name: 'Suggested Setup Changes' })).toBeVisible();
+
+    await page.getByRole('button', { name: 'Work on Another Session' }).click();
+
+    await expect(page.getByRole('region', { name: 'Start Session' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Suggested Setup Changes' })).not.toBeVisible();
+  });
 });
