@@ -228,23 +228,71 @@ function App() {
   }
 
   function renderResultsPage() {
+    const selectedCar = MOCK_CARS.find((car) => car.id === selectedCarId);
+    const selectedTrack = MOCK_TRACKS.find((track) => track.id === selectedTrackId);
+    const selectedSymptom = MOCK_REPORTED_SYMPTOMS.find(
+      (symptom) => symptom.id === selectedSymptomId,
+    );
+
     return (
       <section className="view view-results" aria-label="Suggested Setup Changes">
         <button type="button" className="back-button" onClick={handleReturnToSession}>
           <span aria-hidden="true">&#8592;</span> Back
         </button>
 
+        <div className="hub-readout">
+          <p className="hub-readout-status">
+            <span className="hub-readout-dot" aria-hidden="true" />
+            Session Active
+          </p>
+
+          <div className="hub-readout-combo">
+            <div className="hub-readout-item">
+              <span className="hub-readout-label">Car</span>
+              <span className="hub-readout-value">{selectedCar?.name ?? 'Not selected'}</span>
+              {selectedCar && (
+                <span className="hub-readout-meta">
+                  {selectedCar.enginePlacement}-Engine &middot; {selectedCar.class}
+                </span>
+              )}
+            </div>
+
+            <div className="hub-readout-divider" aria-hidden="true" />
+
+            <div className="hub-readout-item">
+              <span className="hub-readout-label">Track</span>
+              <span className="hub-readout-value">{selectedTrack?.name ?? 'Not selected'}</span>
+              {selectedTrack && (
+                <span className="hub-readout-meta">
+                  {selectedTrack.gripLevel} Grip &middot; {selectedTrack.bumpiness} Bumps
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
         <header className="view-header">
           <h2 className="view-title">Suggested Setup Changes</h2>
           <p className="view-subtitle">
-            Based on the reported symptom, try these adjustments first.
+            {selectedSymptom
+              ? `Diagnosing ${selectedSymptom.label.toLowerCase()} \u2014 try these adjustments first.`
+              : 'Based on the reported symptom, try these adjustments first.'}
           </p>
         </header>
 
         <div className="suggestions-card">
+          <div className="suggestions-card-header">
+            <span className="suggestions-card-eyebrow">Priority Adjustments</span>
+            <span className="suggestions-card-count">
+              {MOCK_SUGGESTED_SETUP_CHANGES.length} Items
+            </span>
+          </div>
           <ul className="suggestions-list">
-            {MOCK_SUGGESTED_SETUP_CHANGES.map((change) => (
+            {MOCK_SUGGESTED_SETUP_CHANGES.map((change, index) => (
               <li key={change} className="suggestion-item">
+                <span className="suggestion-item-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
                 <span className="suggestion-item-text">{change}</span>
               </li>
             ))}
