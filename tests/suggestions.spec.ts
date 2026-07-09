@@ -5,9 +5,11 @@ test.describe('Setup diagnosis submission', () => {
     await page.goto('http://localhost:5173');
     await page.getByRole('button', { name: 'New Session' }).click();
     await expect(page.getByRole('region', { name: 'New Session' })).toBeVisible();
+    await page.getByRole('button', { name: 'Next' }).click();
+    await expect(page.getByRole('region', { name: 'Car Balance' })).toBeVisible();
   });
 
-  test('shows a Submit button on the New Session page', async ({ page }) => {
+  test('shows a Submit button on the Car Balance page', async ({ page }) => {
     await expect(page.getByRole('button', { name: 'Submit' })).toBeVisible();
   });
 
@@ -17,7 +19,7 @@ test.describe('Setup diagnosis submission', () => {
     await page.getByRole('button', { name: 'Submit' }).click();
 
     await expect(page.getByRole('region', { name: 'Suggested Setup Changes' })).toBeVisible();
-    await expect(page.getByRole('region', { name: 'New Session' })).not.toBeVisible();
+    await expect(page.getByRole('region', { name: 'Car Balance' })).not.toBeVisible();
     await expect(page.getByRole('heading', { name: 'Suggested Setup Changes' })).toBeVisible();
   });
 
@@ -38,7 +40,7 @@ test.describe('Setup diagnosis submission', () => {
     ).toBeVisible();
   });
 
-  test('returns to the New Session page when Back is clicked from the suggestions view', async ({
+  test('returns to the Car Balance page when Back is clicked from the suggestions view', async ({
     page,
   }) => {
     await page.getByRole('button', { name: 'Submit' }).click();
@@ -46,24 +48,34 @@ test.describe('Setup diagnosis submission', () => {
 
     await page.getByRole('button', { name: 'Back' }).click();
 
-    await expect(page.getByRole('region', { name: 'New Session' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Car Balance' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'Suggested Setup Changes' })).not.toBeVisible();
   });
 
   test('preserves selected car, track, and reported symptom after returning from the suggestions view', async ({
     page,
   }) => {
+    await page.getByRole('button', { name: 'Back' }).click();
+    await expect(page.getByRole('region', { name: 'New Session' })).toBeVisible();
+
     await page.getByLabel('Car').selectOption({ label: 'Porsche 911 GT3 R' });
     await page.getByLabel('Track').selectOption({ label: 'Spa-Francorchamps' });
+
+    await page.getByRole('button', { name: 'Next' }).click();
+    await expect(page.getByRole('region', { name: 'Car Balance' })).toBeVisible();
+
     await page.getByLabel('Reported Symptom').selectOption({ label: 'Oversteer' });
 
     await page.getByRole('button', { name: 'Submit' }).click();
     await expect(page.getByRole('region', { name: 'Suggested Setup Changes' })).toBeVisible();
 
     await page.getByRole('button', { name: 'Back' }).click();
+    await expect(page.getByRole('region', { name: 'Car Balance' })).toBeVisible();
+    await expect(page.getByLabel('Reported Symptom')).toHaveValue('oversteer');
 
+    await page.getByRole('button', { name: 'Back' }).click();
+    await expect(page.getByRole('region', { name: 'New Session' })).toBeVisible();
     await expect(page.getByLabel('Car')).toHaveValue('porsche-911-gt3');
     await expect(page.getByLabel('Track')).toHaveValue('spa-francorchamps');
-    await expect(page.getByLabel('Reported Symptom')).toHaveValue('oversteer');
   });
 });

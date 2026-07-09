@@ -7,7 +7,7 @@ import {
 } from '@/data/mockVehicleData.ts';
 import './App.css';
 
-type CurrentView = 'start' | 'load' | 'new' | 'results';
+type CurrentView = 'start' | 'load' | 'new' | 'balance' | 'results';
 
 interface SavedSession {
   id: string;
@@ -66,12 +66,20 @@ function App() {
     void session;
   }
 
+  function handleGoToCarBalance(): void {
+    setCurrentView('balance');
+  }
+
+  function handleReturnToCarTrack(): void {
+    setCurrentView('new');
+  }
+
   function handleSubmitDiagnosis(): void {
     setCurrentView('results');
   }
 
   function handleReturnToSession(): void {
-    setCurrentView('new');
+    setCurrentView('balance');
   }
 
   function renderStartPage() {
@@ -199,7 +207,28 @@ function App() {
               ))}
             </select>
           </div>
+        </div>
 
+        <button type="button" className="submit-button" onClick={handleGoToCarBalance}>
+          Next
+        </button>
+      </section>
+    );
+  }
+
+  function renderBalancePage() {
+    return (
+      <section className="view view-balance" aria-label="Car Balance">
+        <button type="button" className="back-button" onClick={handleReturnToCarTrack}>
+          <span aria-hidden="true">&#8592;</span> Back
+        </button>
+
+        <header className="view-header">
+          <h2 className="view-title">Car Balance</h2>
+          <p className="view-subtitle">Tell us how the car is behaving on track.</p>
+        </header>
+
+        <div className="session-detail-grid">
           <div className="detail-card detail-card-wide">
             <label className="detail-card-label" htmlFor="symptom-select">
               Reported Symptom
@@ -310,6 +339,8 @@ function App() {
         return renderLoadPage();
       case 'new':
         return renderNewPage();
+      case 'balance':
+        return renderBalancePage();
       case 'results':
         return renderResultsPage();
       default:
