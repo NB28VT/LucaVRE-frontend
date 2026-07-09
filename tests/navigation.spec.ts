@@ -118,4 +118,40 @@ test.describe('Page navigation', () => {
     await expect(page.getByLabel('Car')).toHaveValue('porsche-911-gt3');
     await expect(page.getByLabel('Track')).toHaveValue('spa-francorchamps');
   });
+
+  test('shows the session header with the selected car and track on the Car Balance page', async ({
+    page,
+  }) => {
+    await page.getByRole('button', { name: 'New Session' }).click();
+
+    await page.getByLabel('Car').selectOption({ label: 'Porsche 911 GT3 R' });
+    await page.getByLabel('Track').selectOption({ label: 'Spa-Francorchamps' });
+
+    await page.getByRole('button', { name: 'Next' }).click();
+
+    const sessionHeader = page.getByRole('group', { name: 'Active session' });
+    await expect(sessionHeader).toBeVisible();
+    await expect(sessionHeader).toContainText('Session Active');
+    await expect(sessionHeader).toContainText('Porsche 911 GT3 R');
+    await expect(sessionHeader).toContainText('Spa-Francorchamps');
+  });
+
+  test('shows the session header with the selected car and track on the Suggested Setup Changes page', async ({
+    page,
+  }) => {
+    await page.getByRole('button', { name: 'New Session' }).click();
+
+    await page.getByLabel('Car').selectOption({ label: 'Ferrari 296 GT3' });
+    await page.getByLabel('Track').selectOption({ label: 'Circuit de la Sarthe (Le Mans)' });
+
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByLabel('Reported Symptom').selectOption({ label: 'Understeer' });
+    await page.getByRole('button', { name: 'Submit' }).click();
+
+    const sessionHeader = page.getByRole('group', { name: 'Active session' });
+    await expect(sessionHeader).toBeVisible();
+    await expect(sessionHeader).toContainText('Session Active');
+    await expect(sessionHeader).toContainText('Ferrari 296 GT3');
+    await expect(sessionHeader).toContainText('Circuit de la Sarthe (Le Mans)');
+  });
 });
