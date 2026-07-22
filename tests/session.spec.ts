@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { mockCreateWorkingSessionSuccess } from './helpers/workingSessionApi';
 
 test.describe('New Session car/track selection', () => {
   test.beforeEach(async ({ page }) => {
@@ -85,9 +86,13 @@ test.describe('New Session car/track selection', () => {
 
 test.describe('Car Balance selection', () => {
   test.beforeEach(async ({ page }) => {
+    await mockCreateWorkingSessionSuccess(page);
+
     await page.goto('http://localhost:5173');
     await page.getByRole('button', { name: 'New Session' }).click();
-    await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByLabel('Car').selectOption({ label: 'Porsche 911 GT3 R' });
+    await page.getByLabel('Track').selectOption({ label: 'Spa-Francorchamps' });
+    await page.getByRole('button', { name: 'Submit' }).click();
     await expect(page.getByRole('region', { name: 'Car Balance' })).toBeVisible();
   });
 
@@ -141,7 +146,7 @@ test.describe('Car Balance selection', () => {
     await page.getByRole('button', { name: 'Back' }).click();
     await expect(page.getByRole('region', { name: 'New Session' })).toBeVisible();
 
-    await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByRole('button', { name: 'Submit' }).click();
     await expect(page.getByRole('region', { name: 'Car Balance' })).toBeVisible();
 
     await expect(page.getByLabel('Reported Symptom')).toHaveValue('oversteer');
