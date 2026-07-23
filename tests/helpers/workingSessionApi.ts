@@ -21,6 +21,30 @@ export async function mockCreateWorkingSessionSuccess(page: Page): Promise<void>
   });
 }
 
+export async function mockWorkingSessionsList(
+  page: Page,
+  sessions: Array<{
+    id: number;
+    carId: string;
+    trackId: string;
+    createdAt: string;
+    car?: { id: string; name: string };
+    track?: { id: string; name: string };
+  }>,
+): Promise<void> {
+  await page.route('**/api/v1/working_sessions', async (route) => {
+    if (route.request().method() !== 'GET') {
+      await route.continue();
+      return;
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(sessions),
+    });
+  });
+}
+
 export async function mockCreateWorkingSessionValidationError(
   page: Page,
   errors: { car_id?: string[]; track_id?: string[] },
