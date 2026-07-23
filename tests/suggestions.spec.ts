@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { mockCreateWorkingSessionSuccess } from './helpers/workingSessionApi';
+import { mockVehicleOptions } from './helpers/vehicleOptionsApi';
 
 test.describe('Setup diagnosis submission', () => {
   test.beforeEach(async ({ page }) => {
+    await mockVehicleOptions(page);
     await mockCreateWorkingSessionSuccess(page);
 
     await page.goto('http://localhost:5173');

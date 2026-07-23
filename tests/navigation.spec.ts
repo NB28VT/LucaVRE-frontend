@@ -1,8 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { mockCreateWorkingSessionSuccess } from './helpers/workingSessionApi';
+import { mockVehicleOptions } from './helpers/vehicleOptionsApi';
 
 test.describe('Page navigation', () => {
   test.beforeEach(async ({ page }) => {
+    await mockVehicleOptions(page);
+
     await page.goto('http://localhost:5173');
   });
 

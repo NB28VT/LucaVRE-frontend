@@ -1,8 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { mockCreateWorkingSessionSuccess } from './helpers/workingSessionApi';
+import { mockVehicleOptions } from './helpers/vehicleOptionsApi';
 
 test.describe('New Session car/track selection', () => {
   test.beforeEach(async ({ page }) => {
+    await mockVehicleOptions(page);
+
     await page.goto('http://localhost:5173');
     await page.getByRole('button', { name: 'New Session' }).click();
     await expect(page.getByRole('region', { name: 'New Session' })).toBeVisible();
@@ -86,6 +89,7 @@ test.describe('New Session car/track selection', () => {
 
 test.describe('Car Balance selection', () => {
   test.beforeEach(async ({ page }) => {
+    await mockVehicleOptions(page);
     await mockCreateWorkingSessionSuccess(page);
 
     await page.goto('http://localhost:5173');
