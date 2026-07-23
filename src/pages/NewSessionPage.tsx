@@ -8,8 +8,8 @@ import type { WorkingSessionValidationErrors } from '@/types/workingSession.ts';
 interface NewSessionPageProps {
   selectedCarId: string;
   selectedTrackId: string;
-  onSelectCarId: (carId: string) => void;
-  onSelectTrackId: (trackId: string) => void;
+  onSelectCarId: (carId: string, carName: string) => void;
+  onSelectTrackId: (trackId: string, trackName: string) => void;
   onBack: () => void;
   onNext: () => void;
 }
@@ -31,12 +31,14 @@ function NewSessionPage({
 
   function handleSelectCarId(carId: string): void {
     setCarValidationError(null);
-    onSelectCarId(carId);
+    const carName = cars?.find((car) => car.id === carId)?.name ?? '';
+    onSelectCarId(carId, carName);
   }
 
   function handleSelectTrackId(trackId: string): void {
     setTrackValidationError(null);
-    onSelectTrackId(trackId);
+    const trackName = tracks?.find((track) => track.id === trackId)?.name ?? '';
+    onSelectTrackId(trackId, trackName);
   }
 
   function handleSubmit(): void {
